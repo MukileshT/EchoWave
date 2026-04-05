@@ -3,6 +3,7 @@
 EchoWave is a collaborative music listening platform. This version runs fully offline and can be self-hosted on your local network.
 
 Author: Mukilesh
+
 GitHub: [MukileshT](https://github.com/MukileshT)
 
 ## Features
