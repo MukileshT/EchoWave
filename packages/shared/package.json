@@ -1,0 +1,12 @@
+{
+  "name": "@echowave/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "devDependencies": {},
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}

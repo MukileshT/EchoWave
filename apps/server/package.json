@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "cleanup": "tsx scripts/cleanup-orphaned-rooms.ts",
+    "cleanup:live": "tsx scripts/cleanup-orphaned-rooms.ts --live",
+    "test": "node --test",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.828.0",
+    "@echowave/shared": "*",
+    "@hono/node-server": "^1.4.1",
+    "dotenv": "^16.5.0",
+    "fs-extra": "^11.2.0",
+    "hono": "^4.7.2",
+    "nanoid": "^5.1.5",
+    "p-limit": "^6.2.0",
+    "sanitize-filename": "^1.6.3",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.0",
+    "@types/ws": "^8.5.10",
+    "@types/sinon": "^17.0.4",
+    "sinon": "^21.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  }
+}

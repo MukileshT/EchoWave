@@ -1,0 +1,45 @@
+import { ExtractWSRequestFrom } from "@echowave/shared";
+import { listObjectsWithPrefix } from "../../lib/storage";
+import { requireCanMutate } from "../middlewares";
+import { HandlerFunction } from "../types";
+
+export const handleLoadDefaultTracks: HandlerFunction<
+  ExtractWSRequestFrom["LOAD_DEFAULT_TRACKS"]
+> = async ({ ws }) => {
+  const { room } = requireCanMutate(ws);
+
+  // List default objects from R2 and map to public URLs
+  const objects = await listObjectsWithPrefix("default/");
+  if (!objects || objects.length === 0) {
+    return;
+  }
+
+  const urls = objects
+    .filter((obj) => !!obj.Key)
+    .map((obj) => ({ url: `${process.env.S3_PUBLIC_URL}/${obj.Key}` }));
+
+  // Existing room sources and simple URL set for dedupe
+  const existingUrlSet = new Set(room.getAudioSources().map((s) => s.url));
+
+  // Filter out any defaults already present in the room
+  const toAdd = urls.filter((u) => !existingUrlSet.has(u.url));
+
+  if (toAdd.length === 0) {
+    console.log(
+      `[${ws.data.roomId}] No new default tracks to add (all already present).`
+    );
+    return;
+  }
+
+  // Append only new sources
+  for (const src of toAdd) {
+    room.addAudioSource(src);
+  }
+
+  const updated = room.getAudioSources();
+
+  room.broadcast({
+    type: "ROOM_EVENT",
+    event: { type: "SET_AUDIO_SOURCES", sources: updated },
+  });
+};

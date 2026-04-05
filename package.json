@@ -1,0 +1,33 @@
+{
+  "name": "echowave",
+  "author": "Mukilesh",
+  "packageManager": "npm@10.2.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "start": "turbo run start",
+    "server": "turbo start --filter=server",
+    "client": "turbo start --filter=client",
+    "launcher:dev": "node tools/launcher/launcher.js",
+    "package:launcher": "pkg tools/launcher/launcher.js -t node18-win-x64 -o echowave-launcher.exe",
+    "docker:build": "docker build -t echowave .",
+    "docker:run": "docker rm -f echowave-server 2>/dev/null || true && docker run --name echowave-server -p 8080:8080 --env-file apps/server/.env echowave",
+    "docker:prod": "npm run docker:build && npm run docker:run",
+    "docker:stop": "docker stop echowave-server",
+    "docker:clean": "docker rm -f echowave-server 2>/dev/null || true && docker system prune -f"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/s3-request-presigner": "^3.828.0",
+    "turbo": "^2.4.4"
+  }
+}

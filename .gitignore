@@ -1,0 +1,16 @@
+*.ctx.md
+
+# Add .turbo to your .gitignore file. The turbo CLI uses these folders for persisting logs, outputs, and other functionality.
+.turbo
+node_modules
+
+# uploads in server
+apps/server/storage/*
+apps/server/uploads/*
+.DS_Store
+.vercel
+dist/EchoWave-Portable.zip
+dist/EchoWave-Portable
+tools/installer/Output*
+dist/
+echowave-launcher.exe
